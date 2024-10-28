@@ -1,0 +1,90 @@
+[
+    {
+        "name": "John Smith",
+        "birthday": "02.10.1990",
+        "height": "175",
+        "weight": "76.5",
+        "car": "True",
+        "languages": "['C++', 'Python']"
+    },
+    {
+        "name": "Alexey Alexeev",
+        "birthday": "05.06.1986",
+        "height": "197",
+        "weight": "101.2",
+        "car": "False",
+        "languages": "['Pascal', 'Delphi']"
+    },
+    {
+        "name": "Maria Ivanova",
+        "birthday": "28.08.1998",
+        "height": "165",
+        "weight": "56.1",
+        "car": "True",
+        "languages": "['C#', 'C++', 'C']"
+    },
+    {
+        "name": "Pjotr",
+        "birthday": "06.07.1990",
+        "height": "197",
+        "weight": "110.0",
+        "car": "True",
+        "languages": "['Python3', 'Buildozer']"
+    },
+    {
+        "name": "Самуил Петров",
+        "birthday": "01.01.2000",
+        "height": "169",
+        "weight": "51.0",
+        "car": "False",
+        "languages": "['c++']"
+    },
+    {
+        "name": "Filimon Naumov",
+        "birthday": "05.05.2024",
+        "height": "145",
+        "weight": "90.0",
+        "car": "False",
+        "languages": "['c++', 'C#']"
+    },
+    {
+        "name": "lkjh",
+        "birthday": "01.01.2024",
+        "height": "54",
+        "weight": "65.0",
+        "car": "False",
+        "languages": "['пр']"
+    },
+    {
+        "name": "ktm",
+        "birthday": "05.05.1998",
+        "height": "185",
+        "weight": "63.0",
+        "car": "True",
+        "languages": "['Python']"
+    },
+    {
+        "name": "Фёдор Громыко",
+        "birthday": "05.06.2001",
+        "height": "125",
+        "weight": "60.0",
+        "car": "True",
+        "languages": "['Все']"
+    },
+    {
+        "name": "hjk",
+        "birthday": "05.07.2001",
+        "height": "165",
+        "weight": "54.0",
+        "car": "False",
+        "languages": "['Python']"
+    },
+    {
+        "name": "lkj",
+        "birthday": "02.04.3333",
+        "height": "254",
+        "weight": "56.0",
+        "car": "False",
+        "languages": "с++"
+    }
+]

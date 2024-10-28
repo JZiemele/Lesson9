@@ -1,0 +1,12 @@
+name,birthday,height,weight,car,languages
+John Smith,02.10.1990,175,76.5,True,"['C++', 'Python']"
+Alexey Alexeev,05.06.1986,197,101.2,False,"['Pascal', 'Delphi']"
+Maria Ivanova,28.08.1998,165,56.1,True,"['C#', 'C++', 'C']"
+Pjotr,06.07.1990,197,110.0,True,"['Python3', 'Buildozer']"
+Самуил Петров,01.01.2000,169,51.0,False,['c++']
+Filimon Naumov,05.05.2024,145,90.0,False,"['c++', 'C#']"
+lkjh,01.01.2024,54,65.0,False,['пр']
+ktm,05.05.1998,185,63.0,True,['Python']
+Фёдор Громыко,05.06.2001,125,60.0,True,['Все']
+hjk,05.07.2001,165,54.0,False,['Python']
+lkj,02.04.3333,254,56.0,False,с++
