@@ -1,0 +1,88 @@
+
+
+
+CREATE TABLE Employees (
+    Name VARCHAR(100),
+    Position VARCHAR(50),
+    Department VARCHAR(50),
+    Salary DECIMAL(10, 2)
+);
+
+
+
+
+INSERT INTO Employees (Name, Position, Department, Salary) VALUES 
+('John Doe', 'Developer', 'IT', 4000),
+('Jane Smith', 'Manager', 'Sales', 6000),
+('Emily White', 'Designer', 'Marketing', 4500),
+('Michael Brown', 'Developer', 'IT', 4200),
+('Sarah Green', 'Manager', 'HR', 5200);
+
+
+
+
+UPDATE Employees
+SET Position = 'Senior Developer', Salary = 5000
+WHERE Name = 'John Doe';
+
+
+
+ALTER TABLE Employees
+ADD HireDate DATE;
+
+
+
+
+UPDATE Employees SET HireDate = '2020-05-10' WHERE Name = 'John Doe';
+UPDATE Employees SET HireDate = '2019-08-15' WHERE Name = 'Jane Smith';
+UPDATE Employees SET HireDate = '2021-03-01' WHERE Name = 'Emily White';
+UPDATE Employees SET HireDate = '2022-01-12' WHERE Name = 'Michael Brown';
+UPDATE Employees SET HireDate = '2018-11-25' WHERE Name = 'Sarah Green';
+
+
+
+
+
+SELECT * FROM Employees
+WHERE Position = 'Manager';
+
+
+
+SELECT * FROM Employees
+WHERE Salary > 5000;
+
+
+SELECT * FROM Employees
+WHERE Department = 'Sales';
+
+
+SELECT AVG(Salary) AS AverageSalary FROM Employees;
+
+
+DROP TABLE Employees;
+
+
+
+
+CREATE OR REPLACE FUNCTION EmployeeQueries()
+RETURNS TABLE (query_result TEXT) AS $$
+BEGIN
+    -- Запрос на менеджеров
+    RETURN QUERY SELECT 'Managers: ' || Name || ', Position: ' || Position || ', Department: ' || Department || ', Salary: ' || Salary::text
+    FROM Employees WHERE Position = 'Manager';
+
+    -- Запрос на сотрудников с зарплатой более 5000
+    RETURN QUERY SELECT 'Employees with salary > 5000: ' || Name || ', Position: ' || Position || ', Department: ' || Department || ', Salary: ' || Salary::text
+    FROM Employees WHERE Salary > 5000;
+
+    -- Запрос на сотрудников в отделе Sales
+    RETURN QUERY SELECT 'Employees in Sales department: ' || Name || ', Position: ' || Position || ', Salary: ' || Salary::text
+    FROM Employees WHERE Department = 'Sales';
+
+    -- Запрос на среднюю зарплату
+    RETURN QUERY SELECT 'Average Salary: ' || AVG(Salary)::text FROM Employees;
+END;
+$$ LANGUAGE plpgsql;
+
+
+SELECT * FROM EmployeeQueries();

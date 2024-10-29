@@ -1,0 +1,197 @@
+CREATE TABLE authors (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL
+);
+
+
+
+CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    author_id INT,
+    publication_year INT,
+    FOREIGN KEY (author_id) REFERENCES authors(id)
+);
+
+
+
+
+CREATE TABLE sales (
+    id SERIAL PRIMARY KEY,
+    book_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
+
+
+
+INSERT INTO authors (first_name, last_name) VALUES 
+('George', 'Orwell'),
+('Jane', 'Austen'),
+('Mark', 'Twain');
+
+INSERT INTO books (title, author_id, publication_year) VALUES 
+('1984', 1, 1949),
+('Animal Farm', 1, 1945),
+('Pride and Prejudice', 2, 1813),
+('Adventures of Huckleberry Finn', 3, 1884);
+
+INSERT INTO sales (book_id, quantity) VALUES 
+(1, 100),
+(2, 150),
+(3, 200),
+(4, 120);
+
+Задача 2: Использование JOIN
+1. Использование INNER JOIN для получения списка всех книг и их авторов
+
+
+SELECT 
+    books.title AS Book_Title,
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name
+FROM 
+    books
+INNER JOIN 
+    authors ON books.author_id = authors.id;
+
+2. Использование LEFT JOIN для получения списка всех авторов и их книг (включая авторов, у которых нет книг)
+
+SELECT 
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name,
+    books.title AS Book_Title
+FROM 
+    authors
+LEFT JOIN 
+    books ON authors.id = books.author_id;
+
+3. Использование RIGHT JOIN для получения списка всех книг и их авторов, включая книги, у которых автор не указан
+
+SELECT 
+    books.title AS Book_Title,
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name
+FROM 
+    books
+RIGHT JOIN 
+    authors ON books.author_id = authors.id;
+
+
+Задача 3: Множественные JOIN
+1. Использование INNER JOIN для связывания таблиц authors, books и sales
+
+SELECT 
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name,
+    books.title AS Book_Title,
+    sales.quantity AS Quantity_Sold
+FROM 
+    authors
+INNER JOIN 
+    books ON authors.id = books.author_id
+INNER JOIN 
+    sales ON books.id = sales.book_id;
+
+2. Использование LEFT JOIN для связывания таблиц authors, books, и sales
+
+SELECT 
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name,
+    books.title AS Book_Title,
+    sales.quantity AS Quantity_Sold
+FROM 
+    authors
+LEFT JOIN 
+    books ON authors.id = books.author_id
+LEFT JOIN 
+    sales ON books.id = sales.book_id;
+
+
+
+SELECT 
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name,
+    books.title AS Book_Title,
+    books.publication_year AS Publication_Year,
+    sales.quantity AS Quantity_Sold
+FROM 
+    authors
+JOIN 
+    books ON authors.id = books.author_id
+JOIN 
+    sales ON books.id = sales.book_id;
+
+
+Задача 4: Использование JOIN и агрегатных функций
+1. Использование INNER JOIN и функций агрегации для определения общего количества проданных книг каждого автора
+
+SELECT 
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name,
+    SUM(sales.quantity) AS Total_Sold
+FROM 
+    authors
+INNER JOIN 
+    books ON authors.id = books.author_id
+INNER JOIN 
+    sales ON books.id = sales.book_id
+GROUP BY 
+    authors.id, authors.first_name, authors.last_name;
+
+2. Использование LEFT JOIN и функций агрегации для определения общего количества проданных книг каждого автора, включая авторов без продаж
+
+SELECT 
+    authors.first_name AS Author_First_Name,
+    authors.last_name AS Author_Last_Name,
+    COALESCE(SUM(sales.quantity), 0) AS Total_Sold
+FROM 
+    authors
+LEFT JOIN 
+    books ON authors.id = books.author_id
+LEFT JOIN 
+    sales ON books.id = sales.book_id
+GROUP BY 
+    authors.id, authors.first_name, authors.last_name;
+
+
+Задача 5: Подзапросы и JOIN
+
+1. Найдите автора с наибольшим количеством проданных книг, используя подзапросы и JOIN
+SELECT 
+    AuthorSales.first_name AS Author_First_Name,
+    AuthorSales.last_name AS Author_Last_Name,
+    AuthorSales.Total_Sold
+FROM 
+    (SELECT 
+         authors.id AS author_id,
+         authors.first_name,
+         authors.last_name,
+         SUM(sales.quantity) AS Total_Sold
+     FROM 
+         authors
+     INNER JOIN 
+         books ON authors.id = books.author_id
+     INNER JOIN 
+         sales ON books.id = sales.book_id
+     GROUP BY 
+         authors.id, authors.first_name, authors.last_name
+    ) AS AuthorSales
+ORDER BY 
+    AuthorSales.Total_Sold DESC
+LIMIT 1;
+
+2. Найдите книги, которые были проданы в количестве, превышающем среднее количество продаж всех книг, используя подзапросы и JOIN
+
+SELECT 
+    books.title AS Book_Title,
+    SUM(sales.quantity) AS Total_Sold
+FROM 
+    books
+INNER JOIN 
+    sales ON books.id = sales.book_id
+GROUP BY 
+    books.id, books.title
+HAVING 
+    SUM(sales.quantity) > (SELECT AVG(total_quantity) FROM (SELECT SUM(quantity) AS total_quantity FROM sales GROUP BY book_id) AS AvgSales);
